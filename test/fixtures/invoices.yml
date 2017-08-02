@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  amount: 1
+  date: 2017-08-02
+  to_address: MyText
+  from_address: MyText
+  notes: MyText
+
+two:
+  number: 1
+  amount: 1
+  date: 2017-08-02
+  to_address: MyText
+  from_address: MyText
+  notes: MyText
