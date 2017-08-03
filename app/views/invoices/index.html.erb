@@ -1,50 +1,36 @@
 <h1>Invoices</h1>
-
-<div class="container-fluid" ng-app="paymentsManager">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h1 ng-if="name">Hello, {{name}}</h1>
-    </div>
-    <div class="panel-body">
-      <form class="form-inline">
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Enter your name" autofocus ng-model="name">
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<table>
-  <thead>
-    <tr>
-      <th>Number</th>
-      <th>Amount</th>
-      <th>Date</th>
-      <th>To address</th>
-      <th>From address</th>
-      <th>Notes</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @invoices.each do |invoice| %>
+<div class="table-responsive">
+  <table class='table'>
+    <thead>
       <tr>
-        <td><%= invoice.number %></td>
-        <td><%= invoice.amount %></td>
-        <td><%= invoice.date %></td>
-        <td><%= invoice.to_address %></td>
-        <td><%= invoice.from_address %></td>
-        <td><%= invoice.notes %></td>
-        <td><%= link_to 'Show', invoice %></td>
-        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
-        <td><%= link_to 'Delete', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Number</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>To address</th>
+        <th>From address</th>
+        <th>Notes</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @invoices.each do |invoice| %>
+        <tr>
+          <td><%= link_to invoice.number, invoice %></td>
+          <td><%= number_to_currency(invoice.amount) %></td>
+          <td><%= invoice.date %></td>
+          <td><%= invoice.to_address %></td>
+          <td><%= invoice.from_address %></td>
+          <td><%= invoice.notes %></td>
+         
+          <td><%= link_to '', edit_invoice_path(invoice), :class=> 'glyphicon glyphicon-edit' %></td>
+          <td><%= link_to '', invoice, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'glyphicon glyphicon-remove' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
 
 <br>
 

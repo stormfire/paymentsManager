@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Amount:</strong>
-  <%= @payment.amount %>
+  <strong>Amount (USD):</strong>
+  <%= number_to_currency(@payment.amount) %>
 </p>
 
 <p>

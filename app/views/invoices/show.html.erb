@@ -1,3 +1,4 @@
+<h2>Invoice</h2>
 <p>
   <strong>Number:</strong>
   <%= @invoice.number %>
@@ -5,12 +6,12 @@
 
 <p>
   <strong>Amount (USD):</strong>
-  <%= @invoice.amount %>
+  <%= number_to_currency(@invoice.amount) %>
 </p>
 
 <p>
   <strong>Amount (GBP):</strong>
-  <%= @invoice.amount_in_gbp %>
+  <%= number_to_currency(@invoice.amount_in_gbp, {:unit => '£'})  %>
 </p>
 
 <p>
@@ -42,5 +43,5 @@
   <% if @invoice.payments_due? %>
     <p><%= link_to 'Make Payment', new_invoice_payment_path(@invoice) %></p>
   <% end %>
-  <p> <%= render @invoice.payments %> </p> 
+  <ul> <%= render @invoice.payments %> </ul> 
 </div>
