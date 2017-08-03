@@ -34,6 +34,8 @@ gem 'jbuilder', '~> 2.5'
 # For User authentication
 gem 'devise'
 
+gem 'rest-client', '~> 2.0.0'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

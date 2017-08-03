@@ -1,13 +1,16 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Number:</strong>
   <%= @invoice.number %>
 </p>
 
 <p>
-  <strong>Amount:</strong>
+  <strong>Amount (USD):</strong>
   <%= @invoice.amount %>
+</p>
+
+<p>
+  <strong>Amount (GBP):</strong>
+  <%= @invoice.amount_in_gbp %>
 </p>
 
 <p>
@@ -33,3 +36,11 @@
 <%= link_to 'Edit', edit_invoice_path(@invoice) %> |
 <%= link_to 'Back', invoices_path %> |
 <%= link_to 'Create another Invoice', new_invoice_path %>
+
+<div class='payments'>
+  <h3> Payments </h3>
+  <% if @invoice.payments_due? %>
+    <p><%= link_to 'Make Payment', new_invoice_payment_path(@invoice) %></p>
+  <% end %>
+  <p> <%= render @invoice.payments %> </p> 
+</div>

@@ -7,6 +7,13 @@ class InvoicesController < ApplicationController
     @invoices = current_user.invoices
   end
 
+    # GET /user_invoices
+  # GET /user_invoices.json
+  def user_invoices
+    @user = User.find(params[:user_id])
+    @invoices = @user.nil? ? [] : @user.invoices
+  end
+
   # GET /invoices/1
   # GET /invoices/1.json
   def show
