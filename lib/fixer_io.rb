@@ -8,7 +8,7 @@ module FixerIO
 			response = get('latest', 
 									{ :query => {:base => from, :symbols => to} }
 							)
-			response.code == 200 ? JSON.parse(response)["rates"][to] : nil
+			response && response.code == 200 ? JSON.parse(response)["rates"][to] : nil
 		end
 
 		private
@@ -16,8 +16,14 @@ module FixerIO
 		def get(path = nil, options = {})
 			puts options.inspect
 			query = options[:query].nil? ? '' : ['?', options[:query].to_query].join
+			puts "query : #{query}"
 			url = [ 'http://api.fixer.io/', path, query ].join
-			RestClient.get(url, { accept: :json }.merge(options[:headers] || {}) )
+			puts "query : #{url}"
+			begin
+				RestClient.get(url, { accept: :json }.merge(options[:headers] || {}) )
+			rescue StandardError => e
+				puts e.message
+			end
 		end
 		
 	end

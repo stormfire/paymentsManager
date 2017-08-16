@@ -1,6 +1,10 @@
 class PaymentsController < ApplicationController
   before_action :set_payment, only: [:show, :edit, :update, :destroy]
 
+  def index
+    @invoice = Invoice.find(params[:invoice_id])
+    @payments =@invoice.payments
+  end
   # GET /payments/1
   # GET /payments/1.json
   def show
@@ -24,7 +28,7 @@ class PaymentsController < ApplicationController
     respond_to do |format|
       if @payment.save
         format.html { redirect_to invoice_path @invoice, notice: 'Payment was successfully created.' }
-        format.json { render :show, status: :created, location: @payment }
+        format.json { render :show, status: :created, location: [@payment.invoice, @payment] }
       else
         puts @payment.errors.inspect
         format.html { render :new }

@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <button type="button" class="close" datadismiss="modal" aria-hidden="true" ng-click='cancel()'>
+      <span class="glyphicon glyphicon-remove"> </span>
+    </button>
+    <h3 ng-bind='formHeading'></h3>
+</div>
+<form name="invoiceForm" ng-submit="submitForm()" novalidate>
+  <div class="modal-body">
+    <!-- Number -->
+    <div class="form-group">
+      <label>Number</label>
+      <input type="number" name="number" class="form-control" ng-model="invoice.number" required>
+      <div ng-show="invoiceForm.number.$invalid && showFormErrors()">
+        <span ng-show="invoiceForm.number.$error.required">Invoice number is required.</span>
+        <span ng-show="invoiceForm.number.$error.number">Enter a valid number.</span>
+      </div>
+    </div>
+
+    <!-- Amount -->
+    <div class="form-group">
+      <label>Amount</label>
+      <input type="number" name="amount" class="form-control" ng-model="invoice.amount" required>
+      <div ng-show="invoiceForm.amount.$invalid && showFormErrors()">
+        <span ng-show="invoiceForm.amount.$error.required">Invoice amount is required.</span>
+        <span ng-show="invoiceForm.amount.$error.number">Enter a valid number.</span>
+      </div>
+    </div>
+
+    <!-- date -->
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" name="date" class="form-control" ng-model="invoice.date" required>
+      <div ng-show="invoiceForm.date.$invalid && showFormErrors()">
+        <span ng-show="invoiceForm.date.$error.required">Date is required.</span>
+        <span ng-show="invoiceForm.date.$error.date">Enter a valid date.</span>
+      </div>
+    </div>
+
+    <!-- To Address -->
+    <div class="form-group">
+      <label>To Address</label>
+      <textarea type="text" name="to_address" class="form-control" ng-model="invoice.to_address" required></textarea>
+      <div ng-show="invoiceForm.to_address.$invalid && showFormErrors()">
+        <span ng-show="invoiceForm.to_address.$error.required">To Address is required.</span>
+      </div>
+    </div>
+
+    <!-- From Address -->
+    <div class="form-group">
+      <label>From Address</label>
+      <textarea type="text" name="from_address" class="form-control" ng-model="invoice.from_address" required></textarea>
+      <div ng-show="invoiceForm.from_address.$invalid && showFormErrors()">
+        <span ng-show="invoiceForm.from_address.$error.required">From Address is required.</span>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea type="text" name="notes" class="form-control" ng-model="invoice.notes"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click='ok()' ng-bind="invoice.id ? 'Update' : 'Save'">Save</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</form>

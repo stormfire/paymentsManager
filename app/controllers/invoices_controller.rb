@@ -4,7 +4,7 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = current_user.invoices
+    @invoices = current_user.invoices.includes(:payments)
   end
 
     # GET /user_invoices
@@ -31,9 +31,12 @@ class InvoicesController < ApplicationController
   # POST /invoices
   # POST /invoices.json
   def create
+    puts "invoice params"
+    puts invoice_params.inspect
     @invoice = Invoice.new(invoice_params)
     @invoice.user = current_user
-    
+    puts ">>>>>>>>>>>>>create new invoice..................................";
+    puts ">>>>>>>>>>>>>create new invoice..................................";
     respond_to do |format|
       if @invoice.save
         format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }

@@ -13,4 +13,9 @@
 //= require jquery
 //= require rails-ujs
 //= require angular/angular
+//= require angular-route/angular-route
+//= require angular-resource/angular-resource
+//= require angular-rails-templates
+//= require angular-ui-bootstrap
+//= require angular-ui-bootstrap-tpls
 //= require_tree .

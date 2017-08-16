@@ -12,7 +12,7 @@ class Invoice < ApplicationRecord
 	validates :amount,
 			      :numericality => { :greater_than_or_equal_to => 0, message: 'must be a positive value. ' }
 
-	attr_reader :amount_in_gbp
+	attr_accessor :amount_in_gbp
 
 	def total_payments
 		payments.map(&:amount).sum

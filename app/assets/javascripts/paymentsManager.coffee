@@ -1,2 +1,0 @@
-paymentsManager = angular.module('paymentsManager',[
-])

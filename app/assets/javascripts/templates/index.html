@@ -1,0 +1,30 @@
+<h1>Invoices</h1>
+<button ng-click='openInvoiceForm()'>Create Invoice</button>
+<div class="table-responsive">
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>To address</th>
+        <th>From address</th>
+        <th>Updated At</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat='invoice in invoices'>
+          <td><a ng-click="show(invoice)" ng-bind=invoice.number></a></td>
+          <td>${{invoice.amount}}</td>
+          <td ng-bind='invoice.date | date: "yyyy-MM-dd hh:mm:ss a"'></td>
+          <td ng-bind='invoice.to_address'></td>
+          <td ng-bind='invoice.from_address'></td>
+          <td ng-bind='invoice.updated_at | date: "yyyy-MM-dd hh:mm:ss a"'></td>
+          <td><a class="glyphicon glyphicon-edit" ng-click='openInvoiceForm(invoice, $index)'"></a></td>
+          <td><a data-confirm="Are you sure?" class="glyphicon glyphicon-remove" ng-click='deleteInvoice(invoice)'></a></td>
+        </tr>
+    </tbody>
+  </table>
+</div>

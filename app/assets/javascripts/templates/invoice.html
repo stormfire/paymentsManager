@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <button type="button" class="close" datadismiss="modal" aria-hidden="true" ng-click='cancel()'>
+    <span class="glyphicon glyphicon-remove"> </span>
+  </button>
+  <h3>Invoice Details <span ng-bind='invoice.number'> </h3>
+</div>
+<div class="modal-body">
+  <div class='panel'>
+    <p><strong>Number : </strong><span ng-bind='invoice.number'></span></p>
+    <p><strong>Amount : </strong><span ng-bind='invoice.amount | currency : $ '></span>
+      <span ng-if=invoice.amount_in_gbp>
+        (<span ng-bind='invoice.amount_in_gbp | currency : "£" '></span>)
+      </span>
+    </p>
+    <p><strong>Date : </strong><span ng-bind='invoice.date | date: "yyyy-MM-dd hh:mm:ss a"'></span></p>
+    <p><strong>To Address : </strong><span ng-bind='invoice.to_address'></span></p>
+    <p><strong>From Address : </strong><span ng-bind='invoice.from_address'></span></p>
+    <p><strong>Updated At : </strong><span ng-bind='invoice.updated_at | date: "yyyy-MM-dd hh:mm:ss a"'></span></p>
+    <div class='section'>
+      <div>
+        <div class='payments-section'>
+          <strong>Payments </strong>
+
+          <div>
+          <button class="btn-xs btn-primary" ng-click="showPaymentForm()">Make Payment</button>
+          </div>
+          <!-- payment form starts -->
+         <span> {{$scope.showPaymentFrm}}</span>
+          <form class="form-inline payment-form" ng-if="showPaymentFrm" ng-submit="submitPaymentForm()"novalidate>
+            <div class="form-group">
+              <label>Amount</label>
+              <input type="number" name="amount" class="form-control" ng-model="payment.amount" required>
+              <div ng-show="paymentForm.amount.$invalid && showFormErrors()">
+                <span ng-show="paymentForm.amount.$error.required">Payment amount is required.</span>
+                <span ng-show="paymentForm.amount.$error.number">Enter a valid number.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" name="date" class="form-control" ng-model="payment.date" required>
+              <div ng-show="paymentForm.date.$invalid && showFormErrors()">
+                <span ng-show="paymentForm.date.$error.required">Date is required.</span>
+                <span ng-show="paymentForm.date.$error.date">Enter a valid date.</span>
+              </div>
+            </div>
+                <button type="submit" class="btn btn-info" ng-click='makePayment()'>Make Payment</button>
+          </form>
+          <!-- payment form ends -->
+        </div>
+        
+      </div>
+      <ul>
+       <li ng-repeat='payment in invoice.payments'>
+         <div>
+           <strong>Amount : </strong><span ng-bind='payment.amount | currency : $ '>
+
+           <span ng-if=payment.amount_in_gbp>
+             (<span ng-bind='payment.amount_in_gbp | currency : "£" '></span>)
+           </span>
+         </div>
+         <div><strong>Date : </strong><span ng-bind='payment.date | date: "yyyy-MM-dd hh:mm:ss a"'></span></div>
+
+       </li>
+     </ul>
+   </div>
+ </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click='cancel()'>Close</button>
+</div>

@@ -1,37 +1,25 @@
-<h1>Invoices</h1>
-<div class="table-responsive">
-  <table class='table'>
-    <thead>
-      <tr>
-        <th>Number</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>To address</th>
-        <th>From address</th>
-        <th>Notes</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @invoices.each do |invoice| %>
-        <tr>
-          <td><%= link_to invoice.number, invoice %></td>
-          <td><%= number_to_currency(invoice.amount) %></td>
-          <td><%= invoice.date %></td>
-          <td><%= invoice.to_address %></td>
-          <td><%= invoice.from_address %></td>
-          <td><%= invoice.notes %></td>
-         
-          <td><%= link_to '', edit_invoice_path(invoice), :class=> 'glyphicon glyphicon-edit' %></td>
-          <td><%= link_to '', invoice, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'glyphicon glyphicon-remove' %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
+<div ng-app="paymentsManager">
+  <div class="view-container">
+    <div ng-view class="view-frame animate-view"></div>
+  </div>
 </div>
 
-<br>
-
-<%= link_to 'Create Invoice', new_invoice_path %>
+<div ng-controller="ModalDemoCtrl">
+  <script type="text/ng-template" id="invoice.html">
+      <div class="modal-header">
+          <h3>I'm a modal!</h3>
+      </div>
+      <form ng-submit="submit()">
+        <div class="modal-body">
+          <label>Email address:</label>
+          <input type="email" ng-model="user.email" />
+          <label>Password</label>
+          <input type="password" ng-model="user.password" />
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <input type="submit" class="btn primary-btn" value="Submit" />
+        </div>
+      </form>
+  </script>
+</div>
