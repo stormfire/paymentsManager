@@ -37,5 +37,4 @@ class Invoice < ApplicationRecord
 		rate =  @@exchange_rate['GBP'] || self.class.fetch_exchange_rate
 		rate.nil? ? nil : rate * amount
 	end
-
 end
