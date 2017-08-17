@@ -14,6 +14,13 @@ class Invoice < ApplicationRecord
 
 	attr_accessor :amount_in_gbp
 
+	@@exchange_rate = {}
+
+	# update exchange rates
+	def self.fetch_exchange_rate
+		@@exchange_rate['GBP'] = FixerIO.exchange_rate('USD', 'GBP')
+	end
+
 	def total_payments
 		payments.map(&:amount).sum
 	end
@@ -27,8 +34,7 @@ class Invoice < ApplicationRecord
 	end
 
 	def amount_in_gbp
-		rate =  FixerIO.exchange_rate
-		puts "RATE : #{rate}"
+		rate =  @@exchange_rate['GBP'] || self.class.fetch_exchange_rate
 		rate.nil? ? nil : rate * amount
 	end
 

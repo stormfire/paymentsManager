@@ -4,7 +4,9 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
+    Invoice.fetch_exchange_rate
     @invoices = current_user.invoices.includes(:payments)
+
   end
 
     # GET /user_invoices
