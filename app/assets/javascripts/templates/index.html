@@ -23,7 +23,7 @@
           <td ng-bind='invoice.from_address'></td>
           <td ng-bind='invoice.updated_at | date: "yyyy-MM-dd hh:mm:ss a"'></td>
           <td><a class="glyphicon glyphicon-edit" ng-click='openInvoiceForm(invoice, $index)'"></a></td>
-          <td><a data-confirm="Are you sure?" class="glyphicon glyphicon-remove" ng-click='deleteInvoice(invoice)'></a></td>
+          <td><a data-confirm="Are you sure?" class="glyphicon glyphicon-remove" ng-click='deleteInvoice(invoice, $index)'></a></td>
         </tr>
     </tbody>
   </table>

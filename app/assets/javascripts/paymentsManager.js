@@ -15,7 +15,7 @@ app.config(['$routeProvider', function($routeProvider) {
 }]);
 
 // Invoice factory
-app.factory('Invoice', function($resource) {
+app.factory('Invoice', ['$resource', function($resource) {
 	return $resource('/invoices/:invoiceId',
 		{ invoiceId: "@id", format: 'json' },
 		{
@@ -23,20 +23,23 @@ app.factory('Invoice', function($resource) {
 				method: 'PUT' 
 			}
 		});
-});
+}]);
 
 // Payment factory
-app.factory('Payment', function($resource) {
+app.factory('Payment', ['$resource', function($resource) {
 	return $resource('/invoices/:invoice_id/payments/:id',
 		{ invoice_id: "@invoice_id", id: "@id", format: 'json' }
 		);
-});
+}]);
 
 
 // Invoice Controller
 app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$uibModal', '$log', 'Invoice', 'Payment',
 	function($scope, $routeParams, $resource, $uibModal, $log, Invoice, Payment) {
-		$scope.invoices = Invoice.query(function(response) {
+		$scope.invoices = [];
+		Invoice.query(function(response) {
+			console.log(response);
+			$scope.invoices = response;
 		}); 
 
 		$scope.showPaymentFrm = false;
@@ -96,12 +99,11 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 		$scope.showPaymentForm =function() {
 			$scope.payment = new Payment({invoice_id: $scope.invoice.id});
 			$scope.showPaymentFrm = true ;
-		}
+		};
 
 		$scope.showPaymentFormErrors = function(){
-			return !$scope.paymentForm.$valid && ($scope.paymentForm.$dirty || $scope.paymentForm.$submitted)
-
-		}
+			return !$scope.paymentForm.$valid && ($scope.paymentForm.$dirty || $scope.paymentForm.$submitted);
+		};
 
 		$scope.makePayment = function(){
 			console.log($scope.payment)
@@ -119,15 +121,48 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 					console.log(error.data);
 				});
 		};
+
+		$scope.deleteInvoice = function(invoice, index){
+			Invoice.delete({invoiceId: invoice.id}, function(){
+				$log.info("Invoice deleted sucessfully : " + invoice.id);
+				$scope.invoices.splice(index,1);
+			},
+			function(error){
+				$log.info("Error in deleteing invoice : " + invoice.id);
+				$log.info(error);
+			});
+		};
+		
 	}]);
 
-var ShowInvoiceModalCtrl= function ($scope, $uibModalInstance, invoice) {
+var ShowInvoiceModalCtrl = function ($scope, $uibModalInstance, invoice) {
 	$scope.invoice = invoice;
 
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};
 };
+
+// var DeleteInvoiceModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice) {
+// 	$scope.invoice = invoice;
+// 
+// 	$scope.deleteInvoice = function(invoice, index){
+// 		console.log("delete invoice");
+// 		// Invoice.delete({invoiceId: invoice.id}, function(){
+// 		// 	$log.info("Invoice deleted sucessfully : " + invoice.id);
+// 		// 	$scope.invoices.slice(index,1);
+// 		// },
+// 		// function(error){
+// 		// 	$log.info("Error in deleteing invoice : " + invoice.id);
+// 		// 	$log.info(error);
+// 
+// 		// });
+// 	};
+// 
+// 	$scope.cancel = function () {
+// 		$uibModalInstance.dismiss('cancel');
+// 	};
+// };
 
 var InvoiceFormModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice) {
 	$scope.invoice = invoice;
