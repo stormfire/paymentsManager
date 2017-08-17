@@ -1,20 +1,18 @@
+'use strict';
 var app = angular.module('paymentsManager', [
 	'templates',
 	'ngRoute',
 	'ngResource',
 	'ui.bootstrap'
 	]);
+
 // application configuraton
-app.config(function($routeProvider) {
-	$routeProvider
-	.when("/", {
+app.config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when("/", {
 		templateUrl: "index.html",
 		controller: 'InvoicesController'
-	}).when("/showInvoice", {
-		templateUrl: "invoice.html",
-		controller: 'InvoicesController'
 	});
-});
+}]);
 
 // Invoice factory
 app.factory('Invoice', function($resource) {
@@ -36,7 +34,7 @@ app.factory('Payment', function($resource) {
 
 
 // Invoice Controller
-app.controller('InvoicesController', 
+app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$uibModal', '$log', 'Invoice', 'Payment',
 	function($scope, $routeParams, $resource, $uibModal, $log, Invoice, Payment) {
 		$scope.invoices = Invoice.query(function(response) {
 		}); 
@@ -121,9 +119,9 @@ app.controller('InvoicesController',
 					console.log(error.data);
 				});
 		};
-	});
+	}]);
 
-var ShowInvoiceModalCtrl = function ($scope, $uibModalInstance, invoice) {
+var ShowInvoiceModalCtrl= function ($scope, $uibModalInstance, invoice) {
 	$scope.invoice = invoice;
 
 	$scope.cancel = function () {
