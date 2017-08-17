@@ -32,13 +32,11 @@ app.factory('Payment', ['$resource', function($resource) {
 		);
 }]);
 
-
 // Invoice Controller
 app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$uibModal', '$log', 'Invoice', 'Payment',
 	function($scope, $routeParams, $resource, $uibModal, $log, Invoice, Payment) {
 		$scope.invoices = [];
 		Invoice.query(function(response) {
-			console.log(response);
 			$scope.invoices = response;
 		}); 
 
@@ -49,10 +47,9 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 			$scope.invoice.date = new Date($scope.invoice.date);
 			$scope.invoice.updated_at = new Date($scope.invoice.updated_at);
 
-
 			var modalInstance = $uibModal.open({
 				templateUrl: 'invoice.html',
-				controller: ShowInvoiceModalCtrl,
+				controller: 'ShowInvoiceModalCtrl',
 				scope: $scope,
 				resolve: {
 					invoice: function () {
@@ -80,7 +77,7 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 
 			var modalInstance = $uibModal.open({
 				templateUrl: 'invoiceForm.html',
-				controller: InvoiceFormModalCtrl,
+				controller: 'InvoiceFormModalCtrl',
 				scope: $scope,
 				resolve: {
 					invoice: function () {
@@ -106,7 +103,6 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 		};
 
 		$scope.makePayment = function(){
-			console.log($scope.payment)
 			Payment.save($scope.payment,
 				function(payment){
 					$scope.payment = payment;
@@ -117,8 +113,8 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 					$scope.payment = null			
 				},
 				function(error){
-					console.log("ERROR =>" + error.status);
-					console.log(error.data);
+					$log.info("ERROR =>" + error.status);
+					$log.info(error.data);
 				});
 		};
 
@@ -132,39 +128,20 @@ app.controller('InvoicesController', ['$scope', '$routeParams', '$resource', '$u
 				$log.info(error);
 			});
 		};
-		
+
 	}]);
 
-var ShowInvoiceModalCtrl = function ($scope, $uibModalInstance, invoice) {
+app.controller('ShowInvoiceModalCtrl', ['$scope', '$uibModalInstance', 'invoice',
+ function ($scope, $uibModalInstance, invoice) {
 	$scope.invoice = invoice;
 
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
 	};
-};
+}]);
 
-// var DeleteInvoiceModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice) {
-// 	$scope.invoice = invoice;
-// 
-// 	$scope.deleteInvoice = function(invoice, index){
-// 		console.log("delete invoice");
-// 		// Invoice.delete({invoiceId: invoice.id}, function(){
-// 		// 	$log.info("Invoice deleted sucessfully : " + invoice.id);
-// 		// 	$scope.invoices.slice(index,1);
-// 		// },
-// 		// function(error){
-// 		// 	$log.info("Error in deleteing invoice : " + invoice.id);
-// 		// 	$log.info(error);
-// 
-// 		// });
-// 	};
-// 
-// 	$scope.cancel = function () {
-// 		$uibModalInstance.dismiss('cancel');
-// 	};
-// };
-
-var InvoiceFormModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice) {
+app.controller('InvoiceFormModalCtrl', ['$scope', '$uibModalInstance', 'Invoice', 'invoice',
+	function ($scope, $uibModalInstance, Invoice, invoice) {
 	$scope.invoice = invoice;
 	$scope.formHeading = 'Create Invoice!'
 	if (invoice.id) {
@@ -172,7 +149,7 @@ var InvoiceFormModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice
 	}
 
 	$scope.showFormErrors = function () {
-		return !$scope.invoiceForm.$valid && ($scope.invoiceForm.$dirty || $scope.invoiceForm.$submitted)
+		return !$scope.invoiceForm.$valid && ($scope.invoiceForm.$submitted);
 	}
 
 	$scope.ok = function () {
@@ -199,13 +176,12 @@ var InvoiceFormModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice
 				$uibModalInstance.dismiss('ok');
 			},
 			function(error){
-				console.log("ERROR =>" + error.status);
-				console.log(error.data);
+				$log.info("ERROR =>" + error.status);
+				$log.info(error.data);
 			});
 	};
 
 	var updateInvoice = function(){
-		console.log("update invoice :" + $scope.invoice.id );
 		Invoice.update({id: $scope.invoice.id}, $scope.invoice,
 			function(invoice){
 				$scope.invoice = invoice;
@@ -215,9 +191,9 @@ var InvoiceFormModalCtrl = function ($scope, $uibModalInstance, Invoice, invoice
 				$uibModalInstance.dismiss('ok');
 			},
 			function(error){
-				console.log("ERROR =>" + error.status);
-				console.log(error.data);
+				$log.info("ERROR =>" + error.status);
+				$log.info(error.data);
 			});
 	};
 
-};
+}]);
